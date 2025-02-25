@@ -29,8 +29,11 @@ function readBook(value) {
 
 myLibrary.forEach(book => {
     const card = document.createElement('div');
+    const cardText = document.createElement('p');
     card.classList.add('card');
-    card.textContent = `${book.title}, ${book.author}, ${book.pages}, ${readBook(book.read)}`;
+    cardText.classList.add('card-text');
+    cardText.textContent = `${book.title}, ${book.author}, ${book.pages}, ${readBook(book.read)}`;
+    card.appendChild(cardText);
     booksContainer.appendChild(card);
 });
 
@@ -63,9 +66,33 @@ newBookBtn.addEventListener('click', () => {
     dialog.showModal();
 });
 
+const formInput = document.getElementsByClassName('form-input');
+
 const submitBtn = document.querySelector('#submit-button');
 submitBtn.addEventListener('click', (event) => {
     event.preventDefault();
     addNewBook(event)
+    form.reset();
     dialog.close();
 });
+
+// Add remove button to each book
+const bookArray = Array.from(document.getElementsByClassName('card'));
+for (let i=0; i<bookArray.length; i++) {
+    const removeBtn = document.createElement('button');
+    removeBtn.classList.add('remove-btn');
+    removeBtn.id = i;
+    removeBtn.textContent = 'Remove'
+    bookArray[i].appendChild(removeBtn);
+}
+
+// Function to remove book from library 
+const removeBtnArray = Array.from(document.getElementsByClassName('remove-btn'));
+removeBtnArray.forEach((button) => {
+    button.addEventListener('click', (event) => {
+        const parentDiv = event.target.parentElement;
+        parentDiv.remove();
+    });
+});
+
+console.log(myLibrary);
