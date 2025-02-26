@@ -10,14 +10,52 @@ function Book(title, author, pages, read) {
     this.read = read;
 }
 
-function addBookToLibrary(title, author, pages, read) {
-    myLibrary.push(new Book(title, author, pages, read));
+function addBookToLibrary(book) {
+    myLibrary.push(book);
 }
 
-addBookToLibrary('The Hobbit', 'Steven', 2000, true);
-addBookToLibrary('Lord of The Rings', 'George', 100, false);
-addBookToLibrary('Black Panther', 'William', 560, false);
-addBookToLibrary('Harry Potter', 'Rowling', 99999, true);
+function TheHobbit(title, author, pages, read) {
+    Book.call(this, title, author, pages, read);
+}
+
+function LordOfTheRings(title, author, pages, read) {
+    Book.call(this, title, author, pages, read);
+}
+
+function BlackPanther(title, author, pages, read) {
+    Book.call(this, title, author, pages, read);
+}
+
+function HarryPotter(title, author, pages, read) {
+    Book.call(this, title, author, pages, read);
+}
+
+Object.setPrototypeOf(TheHobbit.prototype, Book.prototype);
+Object.setPrototypeOf(LordOfTheRings.prototype, Book.prototype);
+Object.setPrototypeOf(BlackPanther.prototype, Book.prototype);
+Object.setPrototypeOf(HarryPotter.prototype, Book.prototype);
+
+Book.prototype.toggleReadStatus = function (event) {
+    if (this.read == true) {
+        this.read = false;
+        event.innerHTML = `${this.title}, ${this.author}, ${this.pages}, ${readBook(this.read)}`;
+    } else {
+        this.read = true;
+        event.innerHTML = `${this.title}, ${this.author}, ${this.pages}, ${readBook(this.read)}`;
+    }
+}
+
+const theHobbit = new Book('The Hobbit', 'Steven', 2000, true);
+const lordOfTheRings = new Book('Lord of The Rings', 'George', 100, false);
+const blackPanther = new Book('Black Panther', 'William', 560, false);
+const harryPotter = new Book('Harry Potter', 'Rowling', 99999, true);
+
+addBookToLibrary(theHobbit);
+addBookToLibrary(lordOfTheRings);
+addBookToLibrary(blackPanther);
+addBookToLibrary(harryPotter);
+console.log(myLibrary);
+
 
 function readBook(value) {
     if (value === true) {
@@ -76,14 +114,20 @@ submitBtn.addEventListener('click', (event) => {
     dialog.close();
 });
 
-// Add remove button to each book
+// Add remove button and read toggle button to each book
 const bookArray = Array.from(document.getElementsByClassName('card'));
-for (let i=0; i<bookArray.length; i++) {
+for (let i = 0; i < bookArray.length; i++) {
     const removeBtn = document.createElement('button');
     removeBtn.classList.add('remove-btn');
     removeBtn.id = i;
     removeBtn.textContent = 'Remove'
     bookArray[i].appendChild(removeBtn);
+
+    const toggleRead = document.createElement('button');
+    toggleRead.classList.add('toggle-read-btn');
+    toggleRead.id = i;
+    toggleRead.textContent = 'Read Status'
+    bookArray[i].appendChild(toggleRead);
 }
 
 // Function to remove book from library 
@@ -95,4 +139,15 @@ removeBtnArray.forEach((button) => {
     });
 });
 
-console.log(myLibrary);
+
+
+
+// Change read status on each book
+const toggleReadBtn = Array.from(document.getElementsByClassName('toggle-read-btn'));
+toggleReadBtn.forEach((toggleBtn) => {
+    toggleBtn.addEventListener('click', (event) => {
+        const currentBook = myLibrary[event.target.id];
+        console.log(currentBook);
+        currentBook.toggleReadStatus(event.target.parentElement.firstChild);
+    });
+});
