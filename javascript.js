@@ -56,7 +56,6 @@ addBookToLibrary(blackPanther);
 addBookToLibrary(harryPotter);
 console.log(myLibrary);
 
-
 function readBook(value) {
     if (value === true) {
         return 'has been read';
@@ -64,8 +63,16 @@ function readBook(value) {
         return 'not read yet';
     }
 }
+let bookCounter = 0;
+
 
 myLibrary.forEach(book => {
+    createCard(book);
+});
+console.log(bookCounter);
+
+
+function createCard(book) {
     const card = document.createElement('div');
     const cardText = document.createElement('p');
     card.classList.add('card');
@@ -73,81 +80,82 @@ myLibrary.forEach(book => {
     cardText.textContent = `${book.title}, ${book.author}, ${book.pages}, ${readBook(book.read)}`;
     card.appendChild(cardText);
     booksContainer.appendChild(card);
-});
+
+    addBookButtons();
+}
+
+// Add remove button and read toggle button to each book
+function addBookButtons() {
+    const bookArray = Array.from(document.getElementsByClassName('card'));
+    const removeBtn = document.createElement('button');
+    removeBtn.classList.add('remove-btn');
+    removeBtn.id = bookCounter;
+    removeBtn.textContent = 'Remove';
+    bookArray[bookCounter].appendChild(removeBtn);
+
+
+    const toggleRead = document.createElement('button');
+    toggleRead.classList.add('toggle-read-btn');
+    toggleRead.id = bookCounter;
+    toggleRead.textContent = 'Read Status';
+    bookArray[bookCounter].appendChild(toggleRead);
+    bookCounter++;
+}
+
 
 // Adding new book to library
-
 const form = document.querySelector('#new-book-form');
 form.addEventListener('submit', addNewBook)
 
 function addNewBook(event) {
     event.preventDefault();
-    const title = document.getElementById('title')
-    const author = document.getElementById('author')
-    const pages = document.getElementById('pages')
-    const read = document.getElementById('read');
+    const title = document.getElementById('title').value;
+    const author = document.getElementById('author').value;
+    const pages = document.getElementById('pages').value;
+    const read = document.getElementById('read').checked;
 
-    addBookToLibrary(title.value, author.value, pages.value, read.checked);
-
-    const card = document.createElement('div');
-    card.classList.add('card');
-    card.textContent = `${title.value}, ${author.value}, ${pages.value}, ${readBook(read.checked)}`;
-    booksContainer.appendChild(card);
+    const newBook = new Book(title, author, pages, read);
+    addBookToLibrary(newBook);
+    createCard(newBook);
 }
 
+// Function to remove book from library 
+booksContainer.addEventListener('click', (event) => {
+    let target = event.target;
+    if (target.classList.contains('remove-btn')) {
+        let parentDiv = target.parentElement;
+        bookCounter--;
+        parentDiv.remove();
+    }
+    if (target.classList.contains('toggle-read-btn')) {
+        let parentDiv = target.parentElement;
+        
+    }
+});
+
+
+// Change read status on each book
+const readBtnArray = Array.from(document.getElementsByClassName('toggle-read-btn'));
+readBtnArray.forEach((toggleBtn) => {
+    toggleBtn.addEventListener('click', (event) => {
+        const currentBook = myLibrary[event.target.id];
+        currentBook.toggleReadStatus(event.target.parentElement.firstChild);
+    });
+});
+
 // Display dialog form with button click 
-
 const dialog = document.getElementById('form-dialog');
-
 const newBookBtn = document.getElementById('new-book-btn');
 newBookBtn.addEventListener('click', () => {
     dialog.showModal();
 });
 
-const formInput = document.getElementsByClassName('form-input');
-
+// Dialog submit button
 const submitBtn = document.querySelector('#submit-button');
 submitBtn.addEventListener('click', (event) => {
     event.preventDefault();
-    addNewBook(event)
+    addNewBook(event);
+
     form.reset();
     dialog.close();
-});
-
-// Add remove button and read toggle button to each book
-const bookArray = Array.from(document.getElementsByClassName('card'));
-for (let i = 0; i < bookArray.length; i++) {
-    const removeBtn = document.createElement('button');
-    removeBtn.classList.add('remove-btn');
-    removeBtn.id = i;
-    removeBtn.textContent = 'Remove'
-    bookArray[i].appendChild(removeBtn);
-
-    const toggleRead = document.createElement('button');
-    toggleRead.classList.add('toggle-read-btn');
-    toggleRead.id = i;
-    toggleRead.textContent = 'Read Status'
-    bookArray[i].appendChild(toggleRead);
-}
-
-// Function to remove book from library 
-const removeBtnArray = Array.from(document.getElementsByClassName('remove-btn'));
-removeBtnArray.forEach((button) => {
-    button.addEventListener('click', (event) => {
-        const parentDiv = event.target.parentElement;
-        parentDiv.remove();
-    });
-});
-
-
-
-
-// Change read status on each book
-const toggleReadBtn = Array.from(document.getElementsByClassName('toggle-read-btn'));
-toggleReadBtn.forEach((toggleBtn) => {
-    toggleBtn.addEventListener('click', (event) => {
-        const currentBook = myLibrary[event.target.id];
-        console.log(currentBook);
-        currentBook.toggleReadStatus(event.target.parentElement.firstChild);
-    });
 });
