@@ -119,7 +119,7 @@ function addNewBook(event) {
     createCard(newBook);
 }
 
-// Function to remove book from library 
+// Event listeners for buttons including any that are dynamically created
 booksContainer.addEventListener('click', (event) => {
     let target = event.target;
     if (target.classList.contains('remove-btn')) {
@@ -128,19 +128,11 @@ booksContainer.addEventListener('click', (event) => {
         parentDiv.remove();
     }
     if (target.classList.contains('toggle-read-btn')) {
-        let parentDiv = target.parentElement;
-        
-    }
-});
-
-
-// Change read status on each book
-const readBtnArray = Array.from(document.getElementsByClassName('toggle-read-btn'));
-readBtnArray.forEach((toggleBtn) => {
-    toggleBtn.addEventListener('click', (event) => {
-        const currentBook = myLibrary[event.target.id];
+        let target = event.target.id;
+        const currentBook = myLibrary[target];
+        console.log(currentBook);
         currentBook.toggleReadStatus(event.target.parentElement.firstChild);
-    });
+    }
 });
 
 // Display dialog form with button click 
