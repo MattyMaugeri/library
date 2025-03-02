@@ -54,7 +54,6 @@ addBookToLibrary(theHobbit);
 addBookToLibrary(lordOfTheRings);
 addBookToLibrary(blackPanther);
 addBookToLibrary(harryPotter);
-console.log(myLibrary);
 
 function readBook(value) {
     if (value === true) {
@@ -69,7 +68,6 @@ let bookCounter = 0;
 myLibrary.forEach(book => {
     createCard(book);
 });
-console.log(bookCounter);
 
 
 function createCard(book) {
@@ -102,10 +100,14 @@ function addBookButtons() {
     bookCounter++;
 }
 
-
 // Adding new book to library
 const form = document.querySelector('#new-book-form');
-form.addEventListener('submit', addNewBook)
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    addNewBook(event);
+    form.reset();
+    dialog.close();
+})
 
 function addNewBook(event) {
     event.preventDefault();
@@ -122,8 +124,13 @@ function addNewBook(event) {
 // Event listeners for buttons including any that are dynamically created
 booksContainer.addEventListener('click', (event) => {
     let target = event.target;
-    if (target.classList.contains('remove-btn')) {
-        let parentDiv = target.parentElement;
+    console.log(target.id);
+    console.log(myLibrary);
+
+    if (target.classList.contains('remove-btn')) {                      // ISSUE HERE : Buttons are already assigned an index in addBookButtons
+        let parentDiv = target.parentElement;                           // Need to find a way to reassign button id's dynamically
+        // myLibrary.splice(bookCounter, 1);
+        console.log(myLibrary);
         bookCounter--;
         parentDiv.remove();
     }
@@ -140,14 +147,4 @@ const dialog = document.getElementById('form-dialog');
 const newBookBtn = document.getElementById('new-book-btn');
 newBookBtn.addEventListener('click', () => {
     dialog.showModal();
-});
-
-// Dialog submit button
-const submitBtn = document.querySelector('#submit-button');
-submitBtn.addEventListener('click', (event) => {
-    event.preventDefault();
-    addNewBook(event);
-
-    form.reset();
-    dialog.close();
 });
