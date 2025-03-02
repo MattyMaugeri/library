@@ -124,20 +124,20 @@ function addNewBook(event) {
 // Event listeners for buttons including any that are dynamically created
 booksContainer.addEventListener('click', (event) => {
     let target = event.target;
-    console.log(target.id);
-    console.log(myLibrary);
+    let bookText = event.target.parentElement.firstChild.innerHTML;
+    let bookTitle = bookText.substring(0, bookText.indexOf(','));
+    let bookIndex = myLibrary.findIndex(book => book.title === bookTitle);
+    
+    const currentBook = myLibrary[bookIndex];
 
-    if (target.classList.contains('remove-btn')) {                      // ISSUE HERE : Buttons are already assigned an index in addBookButtons
-        let parentDiv = target.parentElement;                           // Need to find a way to reassign button id's dynamically
-        // myLibrary.splice(bookCounter, 1);
-        console.log(myLibrary);
+    if (target.classList.contains('remove-btn')) {                     
+        let parentDiv = target.parentElement;                           
+        myLibrary.splice(bookIndex, 1);        
         bookCounter--;
         parentDiv.remove();
     }
     if (target.classList.contains('toggle-read-btn')) {
-        let target = event.target.id;
-        const currentBook = myLibrary[target];
-        console.log(currentBook);
+        console.log(myLibrary);
         currentBook.toggleReadStatus(event.target.parentElement.firstChild);
     }
 });
