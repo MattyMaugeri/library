@@ -135,10 +135,10 @@ booksContainer.addEventListener('click', (event) => {
         myLibrary.splice(bookIndex, 1);        
         bookCounter--;
         parentDiv.remove();
+        console.log(myLibrary);
     }
     if (target.classList.contains('toggle-read-btn')) {
-        console.log(myLibrary);
-        currentBook.toggleReadStatus(event.target.parentElement.firstChild);
+        currentBook.toggleReadStatus(target.parentElement.firstChild);
     }
 });
 
