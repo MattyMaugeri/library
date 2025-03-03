@@ -14,7 +14,7 @@ function addBookToLibrary(book) {
     myLibrary.push(book);
 }
 
-function TheHobbit(title, author, pages, read) {
+function GameOfThrones(title, author, pages, read) {
     Book.call(this, title, author, pages, read);
 }
 
@@ -22,7 +22,7 @@ function LordOfTheRings(title, author, pages, read) {
     Book.call(this, title, author, pages, read);
 }
 
-function BlackPanther(title, author, pages, read) {
+function Mockingbird(title, author, pages, read) {
     Book.call(this, title, author, pages, read);
 }
 
@@ -30,38 +30,34 @@ function HarryPotter(title, author, pages, read) {
     Book.call(this, title, author, pages, read);
 }
 
-Object.setPrototypeOf(TheHobbit.prototype, Book.prototype);
+Object.setPrototypeOf(GameOfThrones.prototype, Book.prototype);
 Object.setPrototypeOf(LordOfTheRings.prototype, Book.prototype);
-Object.setPrototypeOf(BlackPanther.prototype, Book.prototype);
+Object.setPrototypeOf(Mockingbird.prototype, Book.prototype);
 Object.setPrototypeOf(HarryPotter.prototype, Book.prototype);
 
 Book.prototype.toggleReadStatus = function (event) {
+    const tick = event.parentElement.lastChild;
+    console.log(tick);
+    
     if (this.read == true) {
         this.read = false;
-        event.innerHTML = `${this.title}, ${this.author}, ${this.pages}, ${readBook(this.read)}`;
+        tick.style.visibility = 'hidden';
     } else {
         this.read = true;
-        event.innerHTML = `${this.title}, ${this.author}, ${this.pages}, ${readBook(this.read)}`;
+        tick.style.visibility = 'visible';
     }
 }
 
-const theHobbit = new Book('The Hobbit', 'Steven', 2000, true);
-const lordOfTheRings = new Book('Lord of The Rings', 'George', 100, false);
-const blackPanther = new Book('Black Panther', 'William', 560, false);
-const harryPotter = new Book('Harry Potter', 'Rowling', 99999, true);
+const gameOfThrones = new Book('A Game of Thrones', 'George, R', 2000 + ' pages', false);
+const lordOfTheRings = new Book('The Lord of the Rings', 'John, T', 5000 + ' pages', false);
+const mockingbird = new Book('To Kill a Mockingbird', 'Harper, L', 560 + ' pages', false);
+const harryPotter = new Book('Harry Potter', 'J.K Rowling', 12093 + ' pages', false);
 
-addBookToLibrary(theHobbit);
+addBookToLibrary(gameOfThrones);
 addBookToLibrary(lordOfTheRings);
-addBookToLibrary(blackPanther);
+addBookToLibrary(mockingbird);
 addBookToLibrary(harryPotter);
 
-function readBook(value) {
-    if (value === true) {
-        return 'has been read';
-    } else {
-        return 'not read yet';
-    }
-}
 let bookCounter = 0;
 
 
@@ -71,32 +67,46 @@ myLibrary.forEach(book => {
 
 
 function createCard(book) {
+    const block = document.createElement('div');
     const card = document.createElement('div');
     const cardText = document.createElement('p');
+    const tickContainer = document.createElement('div');
+
+    tickContainer.classList.add('tick-container');
+    block.classList.add('block');
     card.classList.add('card');
+    card.id = book.title.replaceAll(' ', '');
     cardText.classList.add('card-text');
-    cardText.textContent = `${book.title}, ${book.author}, ${book.pages}, ${readBook(book.read)}`;
+    cardText.textContent = `${book.title}, ${book.author}, ${book.pages}`;
+
+    tickContainer.textContent = '✔';
+    block.appendChild(card);
     card.appendChild(cardText);
-    booksContainer.appendChild(card);
+    card.appendChild(tickContainer);
+    booksContainer.appendChild(block);
 
     addBookButtons();
 }
 
 // Add remove button and read toggle button to each book
 function addBookButtons() {
-    const bookArray = Array.from(document.getElementsByClassName('card'));
     const removeBtn = document.createElement('button');
     removeBtn.classList.add('remove-btn');
     removeBtn.id = bookCounter;
     removeBtn.textContent = 'Remove';
-    bookArray[bookCounter].appendChild(removeBtn);
-
 
     const toggleRead = document.createElement('button');
     toggleRead.classList.add('toggle-read-btn');
     toggleRead.id = bookCounter;
     toggleRead.textContent = 'Read Status';
-    bookArray[bookCounter].appendChild(toggleRead);
+
+    const blockArray = Array.from(document.getElementsByClassName('block'));
+    const btnsContainer = document.createElement('div');
+
+    btnsContainer.classList.add('btns-container');
+    btnsContainer.appendChild(toggleRead);
+    btnsContainer.appendChild(removeBtn);
+    blockArray[bookCounter].appendChild(btnsContainer);
     bookCounter++;
 }
 
@@ -124,21 +134,21 @@ function addNewBook(event) {
 // Event listeners for buttons including any that are dynamically created
 booksContainer.addEventListener('click', (event) => {
     let target = event.target;
-    let bookText = event.target.parentElement.firstChild.innerHTML;
+    let parent = target.parentElement.parentElement;
+    let bookText = parent.firstChild.firstChild.innerHTML;
     let bookTitle = bookText.substring(0, bookText.indexOf(','));
-    let bookIndex = myLibrary.findIndex(book => book.title === bookTitle);
+    let bookIndex = myLibrary.findIndex(book => book.title === bookTitle);    
     
     const currentBook = myLibrary[bookIndex];
 
     if (target.classList.contains('remove-btn')) {                     
-        let parentDiv = target.parentElement;                           
         myLibrary.splice(bookIndex, 1);        
         bookCounter--;
-        parentDiv.remove();
+        parent.remove();
         console.log(myLibrary);
     }
     if (target.classList.contains('toggle-read-btn')) {
-        currentBook.toggleReadStatus(target.parentElement.firstChild);
+        currentBook.toggleReadStatus(parent.firstChild.firstChild);        
     }
 });
 

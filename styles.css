@@ -69,18 +69,145 @@ h6 {
 }
 
 /* Styling start here */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+    background-color: #222222;
+    color: #cfcfcf;
+    font-family: "Roboto", sans-serif;
+}
+
+.header {
+    text-align: center;
+    background-color: #1b1b1b;
+    padding: 14px;
+    border-bottom: 1px solid rgb(95, 95, 95);
+
+}
+
+.header h1 {
+    font-weight: 500;
+    font-size: 40px;
+    letter-spacing: 2px;
+}
+
+.container {
+    padding: 40px 15%;
+}
+
+.container h2 {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.container .nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 8px 6px 8px;
+}
+
+button {
+    border-radius: 30px;
+    color: #cfcfcf;
+    font-size: 14px;
+    border: 1px solid #cfcfcf;
+    letter-spacing: 2px;
+    transition: 0.3s ease;
+}
+
+button:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.nav button {
+    padding: 1px 24px;
+    background-color: #333;
+}
+
 .books-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    grid-template-rows: 100px;
-    grid-auto-rows: 150px;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-rows: 600px;
+    grid-auto-rows: 600px;
+    gap: 20px;
+}
+
+.block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.btns-container {
+    display: flex;
+    margin-left: auto;
+    gap: 15px;
+}
+
+.btns-container button {
+    padding: 5px 24px;
+    background-color: #4e4e4e;
+    font-weight: 500;
 }
 
 .card {
-    border: 1px solid black;
-    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    transition: 0.3s ease;
 }
 
-.new-book-form {
-    /* display: none; */
+.card:hover {
+    cursor: pointer;
+    transform: scale(1.01);
+}
+
+.card-text {
+    text-align: center;
+    font-size: 32px;
+}
+
+.tick-container {
+    color: green;
+    font-size: 42px;
+    font-weight: 700;
+    align-self: flex-end;
+    padding: 0 15px 15px 0;
+    visibility: hidden;
+}
+
+#AGameofThrones {
+    background-image: url('https://platform.vox.com/wp-content/uploads/sites/2/chorus/assets/4229567/game-of-thrones-poster_85627-1920x1200.jpg');
+    background-size: 150% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 20px;
+}
+
+#TheLordoftheRings {
+    background-image: url('https://i0.wp.com/joncronshaw.com/wp-content/uploads/2023/08/DALL%C2%B7E-2024-01-27-13.19.06-A-16_9-image-depicting-a-colossal-fiery-eye-without-a-physical-form-radiating-a-palpable-sense-of-watching-and-searching.-The-eye-is-intense-and-mes.png?fit=1200%2C686&ssl=1');
+    background-size: 180% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 20px;
+}
+
+#ToKillaMockingbird {
+    background-image: url('https://www.damemagazine.com/wp-content/uploads/2017/09/to-kill-a-mockingbird-cover-2.png');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 20px;
+}
+
+#HarryPotter {
+    background-image: url('https://miro.medium.com/v2/resize:fit:1200/1*d-Z-MMx5VSZIYsOm36vU-Q.jpeg');
+    background-size: 100% 110%;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 20px;
 }
