@@ -110,15 +110,6 @@ function addBookButtons() {
     bookCounter++;
 }
 
-// Adding new book to library
-const form = document.querySelector('#new-book-form');
-form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    addNewBook(event);
-    form.reset();
-    dialog.close();
-})
-
 function addNewBook(event) {
     event.preventDefault();
     const title = document.getElementById('title').value;
@@ -151,6 +142,15 @@ booksContainer.addEventListener('click', (event) => {
         currentBook.toggleReadStatus(parent.firstChild.firstChild);        
     }
 });
+
+// Adding new book to library
+const form = document.querySelector('#new-book-form');
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    addNewBook(event);
+    form.reset();
+    dialog.close();
+})
 
 // Display dialog form with button click 
 const dialog = document.getElementById('form-dialog');

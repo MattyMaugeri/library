@@ -131,7 +131,7 @@ button:hover {
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     grid-template-rows: 600px;
     grid-auto-rows: 600px;
-    gap: 20px;
+    gap: 30px;
 }
 
 .block {
@@ -159,10 +159,11 @@ button:hover {
     justify-content: space-between;
     margin-bottom: 12px;
     transition: 0.3s ease;
+    background-color: #4e4e4e;
+    border-radius: 20px;
 }
 
 .card:hover {
-    cursor: pointer;
     transform: scale(1.01);
 }
 
@@ -180,12 +181,38 @@ button:hover {
     visibility: hidden;
 }
 
+#new-book-form {
+    display: flex;
+    flex-direction: column;
+}
+
+dialog {
+    width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    border: none;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+dialog::backdrop {
+    backdrop-filter: blur(3px);
+}
+
+form button {
+    padding: 10px 0;
+    background-color: #333;
+}
+
 #AGameofThrones {
     background-image: url('https://platform.vox.com/wp-content/uploads/sites/2/chorus/assets/4229567/game-of-thrones-poster_85627-1920x1200.jpg');
     background-size: 150% 100%;
     background-position: center;
     background-repeat: no-repeat;
-    border-radius: 20px;
 }
 
 #TheLordoftheRings {
@@ -193,7 +220,6 @@ button:hover {
     background-size: 180% 100%;
     background-position: center;
     background-repeat: no-repeat;
-    border-radius: 20px;
 }
 
 #ToKillaMockingbird {
@@ -201,7 +227,6 @@ button:hover {
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
-    border-radius: 20px;
 }
 
 #HarryPotter {
@@ -209,5 +234,4 @@ button:hover {
     background-size: 100% 110%;
     background-position: center;
     background-repeat: no-repeat;
-    border-radius: 20px;
 }
