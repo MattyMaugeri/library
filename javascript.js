@@ -37,8 +37,6 @@ Object.setPrototypeOf(HarryPotter.prototype, Book.prototype);
 
 Book.prototype.toggleReadStatus = function (event) {
     const tick = event.parentElement.lastChild;
-    console.log(tick);
-    
     if (this.read == true) {
         this.read = false;
         tick.style.visibility = 'hidden';
@@ -48,10 +46,10 @@ Book.prototype.toggleReadStatus = function (event) {
     }
 }
 
-const gameOfThrones = new Book('A Game of Thrones', 'George, R', 2000 + ' pages', false);
-const lordOfTheRings = new Book('The Lord of the Rings', 'John, T', 5000 + ' pages', false);
-const mockingbird = new Book('To Kill a Mockingbird', 'Harper, L', 560 + ' pages', false);
-const harryPotter = new Book('Harry Potter', 'J.K Rowling', 12093 + ' pages', false);
+const gameOfThrones = new Book('A Game of Thrones', 'George, R', 2000, true);
+const lordOfTheRings = new Book('The Lord of the Rings', 'John, T', 5000, true);
+const mockingbird = new Book('To Kill a Mockingbird', 'Harper, L', 560, false);
+const harryPotter = new Book('Harry Potter', 'J.K Rowling', 12093, true);
 
 addBookToLibrary(gameOfThrones);
 addBookToLibrary(lordOfTheRings);
@@ -60,11 +58,9 @@ addBookToLibrary(harryPotter);
 
 let bookCounter = 0;
 
-
 myLibrary.forEach(book => {
     createCard(book);
 });
-
 
 function createCard(book) {
     const block = document.createElement('div');
@@ -77,13 +73,21 @@ function createCard(book) {
     card.classList.add('card');
     card.id = book.title.replaceAll(' ', '');
     cardText.classList.add('card-text');
-    cardText.textContent = `${book.title}, ${book.author}, ${book.pages}`;
-
+    cardText.textContent = `${book.title}, ${book.author}, ${book.pages} pages`;    
     tickContainer.textContent = '✔';
+
+
     block.appendChild(card);
     card.appendChild(cardText);
     card.appendChild(tickContainer);
     booksContainer.appendChild(block);
+
+    let tick = card.lastChild
+    if (book.read === true) {
+        tick.style.visibility = 'visible';
+    } else {
+        tick.style.visibility = 'hidden';
+    }
 
     addBookButtons();
 }
@@ -98,7 +102,7 @@ function addBookButtons() {
     const toggleRead = document.createElement('button');
     toggleRead.classList.add('toggle-read-btn');
     toggleRead.id = bookCounter;
-    toggleRead.textContent = 'Read Status';
+    toggleRead.textContent = 'Read';
 
     const blockArray = Array.from(document.getElementsByClassName('block'));
     const btnsContainer = document.createElement('div');
@@ -139,7 +143,7 @@ booksContainer.addEventListener('click', (event) => {
         console.log(myLibrary);
     }
     if (target.classList.contains('toggle-read-btn')) {
-        currentBook.toggleReadStatus(parent.firstChild.firstChild);        
+        currentBook.toggleReadStatus(parent.firstChild.firstChild);  
     }
 });
 
